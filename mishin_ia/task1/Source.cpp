@@ -9,7 +9,7 @@ class rationalFraction
 public:
 	rationalFraction()
 	{
-	
+
 	}
 	rationalFraction(int nominator, int denominator)
 	{
@@ -59,6 +59,10 @@ public:
 			else
 				k++;
 		}
+	}
+	void printFrac()
+	{
+		cout << Nominator << '/' << Denominator;
 	}
 };
 
@@ -123,12 +127,5 @@ rationalFraction dimention(rationalFraction rat1, rationalFraction rat2)
 
 int main()
 {
-	rationalFraction rat1(1, 7), rat2(6, 2);
-	rat1 = dimention(rat1, rat2);
-	cout << rat1.getDenominator();
-	/*t k = 0;
-	cin >> k;
-	while (rat.setDenominator(k) == 0)
-		cin >> k;*/
 	_getch();
 }
