@@ -71,7 +71,8 @@ int NOD(int x, int y)
 	int div;
 	if (y == x)  return y;
 	int d = y - x;
-	if (d < 0) {
+	if (d < 0) 
+	{
 		d = -d;  div = NOD(y, d);
 	}
 	else
