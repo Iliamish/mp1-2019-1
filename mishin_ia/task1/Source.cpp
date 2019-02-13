@@ -2,6 +2,25 @@
 #include <conio.h>
 using namespace std;
 
+int NOD(int x, int y)
+{
+	int div;
+	if (y == x)  return y;
+	int d = y - x;
+	if (d < 0)
+	{
+		d = -d;  div = NOD(y, d);
+	}
+	else
+		div = NOD(x, d);
+	return div;
+}
+
+int NOK(int x, int y)
+{
+	return x * y / NOD(x, y);
+}
+
 class rationalFraction
 {
 	int Nominator;
@@ -11,10 +30,9 @@ public:
 	{
 
 	}
-	rationalFraction(int nominator, int denominator)
+	rationalFraction(int nominator, int denominator):Nominator(nominator),Denominator(denominator)
 	{
-		Nominator = nominator;
-		Denominator = denominator;
+		
 	}
 	void setNominator(int nominator)
 	{
@@ -64,67 +82,43 @@ public:
 	{
 		cout << Nominator << '/' << Denominator;
 	}
-};
-
-int NOD(int x, int y)
-{
-	int div;
-	if (y == x)  return y;
-	int d = y - x;
-	if (d < 0) 
+	rationalFraction operator+(rationalFraction &rat)
 	{
-		d = -d;  div = NOD(y, d);
+		rationalFraction rat2;
+		int nok = NOK(this->Denominator, rat.getDenominator());
+		rat2.setDenominator(nok);
+		rat2.setNominator(this->Nominator * nok / (this->Denominator) +
+						  rat.getNominator()*nok / rat.getDenominator());
+		rat2.reduce();
+		return rat2;
 	}
-	else
-		div = NOD(x, d);
-	return div;
-}
-
-int NOK(int x, int y)
-{
-	return x * y / NOD(x, y);
-}
-
-rationalFraction add(rationalFraction rat1, rationalFraction rat2)
-{
-	rationalFraction rat3;
-	int nok = NOK(rat1.getDenominator(), rat2.getDenominator());
-	rat3.setDenominator(nok);
-	rat3.setNominator(rat1.getNominator()*nok / rat1.getDenominator() +
-					  rat2.getNominator()*nok / rat2.getDenominator());
-	rat3.reduce();
-	return rat3;
-}
-
-rationalFraction subtract(rationalFraction rat1, rationalFraction rat2)
-{
-	rationalFraction rat3;
-	int nok = NOK(rat1.getDenominator(), rat2.getDenominator());
-	rat3.setDenominator(nok);
-	rat3.setNominator(rat1.getNominator()*nok / rat1.getDenominator() -
-					  rat2.getNominator()*nok / rat2.getDenominator());
-	rat3.reduce();
-	return rat3;
-}
-
-rationalFraction multiplicate(rationalFraction rat1, rationalFraction rat2)
-{
-	rationalFraction rat3;
-	rat3.setDenominator(rat1.getDenominator() * rat2.getDenominator());
-	rat3.setNominator(rat1.getNominator() * rat2.getNominator());
-	rat3.reduce();
-	return rat3;
-}
-
-rationalFraction dimention(rationalFraction rat1, rationalFraction rat2)
-{
-	rationalFraction rat3;
-	rat3.setDenominator(rat1.getDenominator() * rat2.getNominator());
-	rat3.setNominator(rat1.getNominator() * rat2.getDenominator());
-	rat3.reduce();
-	return rat3;
-}
-
+	rationalFraction operator-(rationalFraction &rat)
+	{
+		rationalFraction rat2;
+		int nok = NOK(this->Denominator, rat.getDenominator());
+		rat2.setDenominator(nok);
+		rat2.setNominator(this->Nominator * nok / (this->Denominator) -
+						  rat.getNominator()*nok / rat.getDenominator());
+		rat2.reduce();
+		return rat2;
+	}
+	rationalFraction operator*(rationalFraction &rat)
+	{
+		rationalFraction rat2;
+		rat2.setDenominator(this->Denominator * rat.getDenominator());
+		rat2.setNominator(this->Nominator * rat.getNominator());
+		rat2.reduce();
+		return rat2;
+	}
+	rationalFraction operator/(rationalFraction &rat)
+	{
+		rationalFraction rat2;
+		rat2.setDenominator(this->Denominator * rat.getNominator());
+		rat2.setNominator(this->Nominator * rat.getDenominator());
+		rat2.reduce();
+		return rat2;
+	}
+};
 
 int main()
 {
