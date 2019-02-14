@@ -98,6 +98,8 @@ public:
 		rat2.reduce();
 		return rat2;
 	}
+	friend rationalFraction operator + (const int &num, const rationalFraction &rat);
+	friend rationalFraction operator + (const rationalFraction &rat, const int &num);
 	rationalFraction operator-(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
@@ -126,10 +128,27 @@ public:
 	}
 };
 
+rationalFraction operator+(const int &num, const rationalFraction &rat)
+{
+	rationalFraction rat2;
+	rat2.Denominator = rat.Denominator;
+	rat2.Nominator = rat.Nominator + rat.Denominator * num;
+	rat2.reduce();
+	return rat2;
+}
+rationalFraction operator+(const rationalFraction &rat, const int &num)
+{
+	rationalFraction rat2;
+	rat2.Denominator = rat.Denominator;
+	rat2.Nominator = rat.Nominator + rat.Denominator * num;
+	rat2.reduce();
+	return rat2;
+}
+
 int main()
 {
-	rationalFraction rat1(4, 7), rat2(3, 5), resultrat;
-	resultrat = rat1 + rat2;
+	rationalFraction rat1(1, 2), rat2(3, 5), resultrat;
+	resultrat = 10 + rat1 + 1 ;
 	resultrat.printFrac();
 	resultrat = rat1 - rat2;
 	resultrat.printFrac();
