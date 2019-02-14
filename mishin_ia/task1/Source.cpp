@@ -80,7 +80,7 @@ public:
 	}
 	void printFrac()
 	{
-		cout << Nominator << '/' << Denominator;
+		cout << Nominator << '/' << Denominator<<"\n";
 	}
 	rationalFraction& operator=(const rationalFraction &rat)
 	{
@@ -88,7 +88,7 @@ public:
 		Denominator = rat.Denominator;
 		return *this;
 	}
-	rationalFraction& operator+(const rationalFraction &rat)
+	rationalFraction operator+(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
 		int nok = NOK(this->Denominator, rat.Denominator);
@@ -98,7 +98,7 @@ public:
 		rat2.reduce();
 		return rat2;
 	}
-	rationalFraction& operator-(const rationalFraction &rat)
+	rationalFraction operator-(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
 		int nok = NOK(this->Denominator, rat.Denominator);
@@ -108,7 +108,7 @@ public:
 		rat2.reduce();
 		return rat2;
 	}
-	rationalFraction& operator*(const rationalFraction &rat)
+	rationalFraction operator*(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
 		rat2.Denominator = this->Denominator * rat.Denominator;
@@ -116,7 +116,7 @@ public:
 		rat2.reduce();
 		return rat2;
 	}
-	rationalFraction& operator/(const rationalFraction &rat)
+	rationalFraction operator/(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
 		rat2.Denominator = this->Denominator * rat.Nominator;
@@ -128,5 +128,14 @@ public:
 
 int main()
 {
+	rationalFraction rat1(4, 7), rat2(3, 5), resultrat;
+	resultrat = rat1 + rat2;
+	resultrat.printFrac();
+	resultrat = rat1 - rat2;
+	resultrat.printFrac();
+	resultrat = rat1 * rat2;
+	resultrat.printFrac();
+	resultrat = rat1 / rat2;
+	resultrat.printFrac();
 	_getch();
 }
