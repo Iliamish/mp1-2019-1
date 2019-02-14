@@ -82,39 +82,45 @@ public:
 	{
 		cout << Nominator << '/' << Denominator;
 	}
-	rationalFraction operator+(rationalFraction &rat)
+	rationalFraction& operator=(const rationalFraction &rat)
+	{
+		Nominator = rat.Nominator;
+		Denominator = rat.Denominator;
+		return *this;
+	}
+	rationalFraction& operator+(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
-		int nok = NOK(this->Denominator, rat.getDenominator());
-		rat2.setDenominator(nok);
-		rat2.setNominator(this->Nominator * nok / (this->Denominator) +
-						  rat.getNominator()*nok / rat.getDenominator());
+		int nok = NOK(this->Denominator, rat.Denominator);
+		rat2.Denominator = nok;
+		rat2.Nominator = this->Nominator * nok / (this->Denominator) +
+							   rat.Nominator*nok / rat.Denominator;
 		rat2.reduce();
 		return rat2;
 	}
-	rationalFraction operator-(rationalFraction &rat)
+	rationalFraction& operator-(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
-		int nok = NOK(this->Denominator, rat.getDenominator());
-		rat2.setDenominator(nok);
-		rat2.setNominator(this->Nominator * nok / (this->Denominator) -
-						  rat.getNominator()*nok / rat.getDenominator());
+		int nok = NOK(this->Denominator, rat.Denominator);
+		rat2.Denominator = nok;
+		rat2.Nominator = this->Nominator * nok / (this->Denominator) -
+						 rat.Nominator*nok / rat.Denominator;
 		rat2.reduce();
 		return rat2;
 	}
-	rationalFraction operator*(rationalFraction &rat)
+	rationalFraction& operator*(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
-		rat2.setDenominator(this->Denominator * rat.getDenominator());
-		rat2.setNominator(this->Nominator * rat.getNominator());
+		rat2.Denominator = this->Denominator * rat.Denominator;
+		rat2.Nominator = this->Nominator * rat.Nominator;
 		rat2.reduce();
 		return rat2;
 	}
-	rationalFraction operator/(rationalFraction &rat)
+	rationalFraction& operator/(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
-		rat2.setDenominator(this->Denominator * rat.getNominator());
-		rat2.setNominator(this->Nominator * rat.getDenominator());
+		rat2.Denominator = this->Denominator * rat.Nominator;
+		rat2.Nominator = this->Nominator * rat.Denominator;
 		rat2.reduce();
 		return rat2;
 	}
