@@ -103,6 +103,12 @@ public:
 		this->Nominator += num * this->Denominator;
 		return *this;
 	}
+	rationalFraction operator=(const int &num)
+	{
+		this->Nominator = num;
+		this->Denominator = 1;
+		return *this;
+	}
 	rationalFraction operator+=(const rationalFraction &rat)
 	{
 		int nok = NOK(this->Denominator, rat.Denominator);
@@ -112,8 +118,8 @@ public:
 		this->reduce();
 		return *this;
 	} 
-	/*friend rationalFraction operator + (const int &num, const rationalFraction &rat);
-	friend rationalFraction operator + (const rationalFraction &rat, const int &num);*/
+	friend rationalFraction operator + (const int &num, const rationalFraction &rat);
+	friend rationalFraction operator + (const rationalFraction &rat, const int &num);
 	rationalFraction operator-(const rationalFraction &rat)
 	{
 		rationalFraction rat2;
@@ -142,7 +148,7 @@ public:
 	}
 };
 
-/*rationalFraction operator+(const int &num, const rationalFraction &rat)
+rationalFraction operator+(const int &num, const rationalFraction &rat)
 {
 	rationalFraction rat2;
 	rat2.Denominator = rat.Denominator;
@@ -157,12 +163,12 @@ rationalFraction operator+(const rationalFraction &rat, const int &num)
 	rat2.Nominator = rat.Nominator + rat.Denominator * num;
 	rat2.reduce();
 	return rat2;
-}*/
+}
 
 int main()
 {
 	rationalFraction rat1(1, 2), rat2(3, 5), resultrat;
-	//resultrat = 10 + rat1 + 1 ;
+	resultrat = 10 + rat1;
 	rat1 += rat2;
 	rat1.printFrac();
 	resultrat.printFrac();
