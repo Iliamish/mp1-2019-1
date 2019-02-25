@@ -5,7 +5,8 @@ using namespace std;
 int NOD(int x, int y)
 {
 	int div;
-	if (y == x)  return y;
+	if (y == x)	
+		return y;
 	int d = y - x;
 	if (d < 0)
 	{
@@ -113,7 +114,7 @@ public:
 	{
 		int nok = NOK(this->Denominator, rat.Denominator);
 		this->Nominator = this->Nominator * nok / (this->Denominator) +
-			rat.Nominator * nok / rat.Denominator;
+						  rat.Nominator * nok / rat.Denominator;
 		this->Denominator = nok;
 		this->reduce();
 		return *this;
