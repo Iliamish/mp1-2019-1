@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <cmath>
+#include <regex>
+#include <string>
 using namespace std;
 
 class Polynom
@@ -11,6 +13,7 @@ public:
 	Polynom();
 	Polynom(int deg);
 	Polynom(int deg, int coefs[13]);
+	Polynom(string poly);
 	~Polynom();
 	void SetCoefs(int*coefs);
 	int* GetCoefs();

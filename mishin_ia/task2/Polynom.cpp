@@ -13,6 +13,34 @@ Polynom::Polynom(int deg, int coefs[13]): Deg(deg)
 		Coef[i] = coefs[i];
 }
 
+Polynom::Polynom(string poly)
+{
+	smatch m, cf,dg;
+	regex e("([+-]?[^+-]+)"); 
+	regex coef("([+-]?\d+x)");
+	regex deg("([^+]\d+)");
+
+	cout << "Target sequence: " << poly << endl;
+	cout << "Regular expression: /([+-]?[^+-]+)/" << endl;
+	cout << "The following matches and submatches were found:" <<endl;
+	
+	while (regex_search(poly, m, e)) 
+	{
+		int k = 0;
+		cout << m.str();
+		string mony = m.str();
+		cout << '\n'<<strtol(mony[1])<< endl;
+		if (regex_search(mony, dg, deg))
+		{
+			for (int i = 1; i < mony.length(); i++)
+				k += (int)mony[i] * pow(10, mony.length() - i - 1);
+		}
+		cout << k;
+		poly = m.suffix().str();
+	}
+
+}
+
 Polynom::~Polynom()
 {
 	cout << "\nPolynom deleted";
