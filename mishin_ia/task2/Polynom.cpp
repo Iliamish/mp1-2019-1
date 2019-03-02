@@ -15,30 +15,78 @@ Polynom::Polynom(int deg, int coefs[13]): Deg(deg)
 
 Polynom::Polynom(string poly)
 {
-	smatch m, cf,dg;
+	smatch m, dg, cf;
 	regex e("([+-]?[^+-]+)"); 
-	regex coef("([+-]?\d+x)");
-	regex deg("([^+]\d+)");
+	regex coef("([+-]?\\d+x)");
+	regex deg("([\\^]\\d+)");
+	regex freecoef("[+-]?\\d+");
 
-	cout << "Target sequence: " << poly << endl;
-	cout << "Regular expression: /([+-]?[^+-]+)/" << endl;
-	cout << "The following matches and submatches were found:" <<endl;
+	string mony, degree, coef_x;
 	
 	while (regex_search(poly, m, e)) 
 	{
-		int k = 0;
-		cout << m.str();
-		string mony = m.str();
-		cout << '\n'<<strtol(mony[1])<< endl;
-		if (regex_search(mony, dg, deg))
+		int k = 0, coeffi = 0;
+		mony = m.str();
+		if(regex_search(mony, dg, deg))
 		{
-			for (int i = 1; i < mony.length(); i++)
-				k += (int)mony[i] * pow(10, mony.length() - i - 1);
+			degree = dg.str();
+			for (int i = 1; i < degree.length(); i++)
+				k += (degree[i] - '0') * pow(10, degree.length() - i - 1);
+			if(Deg == 0)
+				Deg = k;
+			regex_search(mony, cf, coef);
+			coef_x = cf.str();
+			int sign = 1;
+			if (coef_x[0] == '-')
+				for (int i = 1; i < coef_x.length() - 1; i++)
+					coeffi -= (coef_x[i] - '0') * pow(10, coef_x.length() - i - 2);
+			else
+				if(coef_x[0] > '0' && coef_x[0] <= '9')
+					for (int i = 0; i < coef_x.length()-1; i++)
+						coeffi += (coef_x[i] - '0') * pow(10, coef_x.length() - i - 2);
+				else
+					for (int i = 1; i < coef_x.length() - 1; i++)
+						coeffi +=(coef_x[i] - '0') * pow(10, coef_x.length() - i - 2);
+			Coef[Deg - k] = coeffi;
 		}
-		cout << k;
+		else
+		{
+			if (regex_search(mony, cf, coef))
+			{
+				if (Deg == 0)
+					Deg = 1;
+				coef_x = cf.str();
+				if (coef_x[0] == '-')
+					for (int i = 1; i < coef_x.length() - 1; i++)
+						coeffi -= (coef_x[i] - '0') * pow(10, coef_x.length() - i - 2);
+				else
+					if (coef_x[0] > '0' && coef_x[0] <= '9')
+						for (int i = 0; i < coef_x.length() - 1; i++)
+							coeffi += (coef_x[i] - '0') * pow(10, coef_x.length() - i - 2);
+					else
+						for (int i = 1; i < coef_x.length() - 1; i++)
+							coeffi += (coef_x[i] - '0') * pow(10, coef_x.length() - i - 2);
+				Coef[Deg - 1] = coeffi;
+			}
+			else
+			{
+				regex_search(mony, cf, freecoef);
+					coef_x = cf.str();
+				if (coef_x[0] == '-')
+					for (int i = 1; i < coef_x.length(); i++)
+						coeffi -= (coef_x[i] - '0') * pow(10, coef_x.length() - i - 1);
+				else
+					if (coef_x[0] > '0' && coef_x[0] <= '9')
+						for (int i = 0; i < coef_x.length(); i++)
+							coeffi += (coef_x[i] - '0') * pow(10, coef_x.length() - i - 1);
+					else
+						for (int i = 1; i < coef_x.length(); i++)
+							coeffi += (coef_x[i] - '0') * pow(10, coef_x.length() - i - 1);
+				Coef[Deg] = coeffi;
+			}
+		}
 		poly = m.suffix().str();
 	}
-
 }
 
 Polynom::~Polynom()
@@ -74,7 +122,8 @@ int Polynom::GetDeg()
 
 void Polynom::printPolynom()
 {
-	cout << '\n' << Coef[0] << '*' << "x^" << Deg;
+	if(Deg != 0)
+		cout << '\n' << Coef[0] << '*' << "x^" << Deg;
 	for (int i = 1; i < Deg; i++)
 		if (Coef[i] > 0)
 			cout << '+' << Coef[i] << '*' << "x^" << Deg - i;

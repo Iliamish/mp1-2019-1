@@ -7,8 +7,8 @@ using namespace std;
 
 class Polynom
 {
-	int Deg;
-	int Coef[13]; // coefs from higest degree[0] to free coef[Deg]
+	int Deg = 0;
+	int Coef[13] = { 0 }; // coefs from higest degree[0] to free coef[Deg]
 public:
 	Polynom();
 	Polynom(int deg);
