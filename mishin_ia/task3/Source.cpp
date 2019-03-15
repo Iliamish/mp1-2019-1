@@ -3,11 +3,11 @@
 
 int main()
 {
-	TextField tf(20, 20, 10);
-	_getch();
+	TextField tf(20, 20, 20);
 	tf.PutFieldOnConsole();
 	TextEditor editor(tf);
 	editor.in();
+	system("cls");
 	cout << editor.GetText();
 	_getch();
 }

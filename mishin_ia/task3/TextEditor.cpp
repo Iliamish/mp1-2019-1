@@ -19,28 +19,41 @@ void TextEditor::in()
 {
 	char ch = 0;
 	int x = Field.GetX();
+	int wherex, len = Field.GetLen();
 	ch = _getch();
 	while (ch != 13)
 	{
-		if ((Field.wherex() - Field.GetX() < Field.GetLen()) && ch != 13)
+		wherex = Field.wherex();
+		if ((wherex - x < len) && (wherex >= x + 1))
 		{
-			cout << ch;
-			if (ch == '\b')
+			if (ch == '\b' && Text.length() > 0)
 			{
 				Text.pop_back();
-				cout << " \b";
+				cout << "\b \b";
 			}
-			Text.push_back(ch);
+			else
+			{
+				Text.push_back(ch);
+				cout << ch;
+			}
 		}
 		else
 		{
-			if (ch == '\b')
+			if (wherex != x)
 			{
-				Text.pop_back();
-				cout << " \b";
+				if (ch == '\b')
+				{
+					Text.pop_back();
+					cout << "\b \b";
+				}
 			}
+			else
+				if (ch != '\b')
+				{
+					Text.push_back(ch);
+					cout << ch;
+				}
 		}
 		ch = _getch();
-		_getch();
 	}
 }
