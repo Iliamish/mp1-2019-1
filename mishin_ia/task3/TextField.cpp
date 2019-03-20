@@ -90,6 +90,7 @@ TextField::~TextField()
 
 void TextField::SetLen(int length)
 {
+	Length = length;
 }
 
 int TextField::GetLen()
@@ -119,7 +120,7 @@ int TextField::GetY()
 
 void TextField::PutFieldOnConsole()
 {
-	system("cls");
 	gotoxy(X, Y);
+	system("cls");
 	textbackground(BLUE);
 }
