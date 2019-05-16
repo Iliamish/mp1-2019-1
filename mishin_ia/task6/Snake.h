@@ -6,16 +6,16 @@ using std::vector;
 
 class Snake
 {
-	
-	int Length;
+	int length;
 	vector<COORD> tail;
 public:
 	Snake();
 	~Snake();
-	void addTailSeg(COORD xy);
+	void AddTailSeg(COORD xy);
+	int GetLength();
 	COORD GetSnakeHead();
 	COORD GetSnakeEnd();
 	vector<COORD> GetTail();
-	void Move(COORD HeadMove, int **Matrix);
+	void Move(COORD headMove, int **matrix);
 };
 

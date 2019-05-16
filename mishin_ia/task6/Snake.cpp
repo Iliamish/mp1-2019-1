@@ -1,10 +1,8 @@
 #include "Snake.h"
 
-
-
 Snake::Snake()
 {
-	Length = 0;
+	length = 0;
 }
 
 
@@ -12,19 +10,24 @@ Snake::~Snake()
 {
 }
 
-void Snake::addTailSeg(COORD xy)
+void Snake::AddTailSeg(COORD xy)
 {
-	if (Length == 1)
+	if (length == 1)
 		tail.push_back(xy);
-	if (!Length)
+	if (!length)
 		tail.push_back(xy);
-	if (Length >= 2)
+	if (length >= 2)
 	{
-		xy.X = 2 * tail[Length - 1].X - tail[Length - 2].X;
-		xy.Y = 2 * tail[Length - 1].Y - tail[Length - 2].Y;
+		xy.X = 2 * tail[length - 1].X - tail[length - 2].X;
+		xy.Y = 2 * tail[length - 1].Y - tail[length - 2].Y;
 		tail.push_back(xy);
 	}
-	Length++;
+	length++;
+}
+
+int Snake::GetLength()
+{
+	return length;
 }
 
 COORD Snake::GetSnakeHead()
@@ -42,15 +45,15 @@ vector<COORD> Snake::GetTail()
 	return tail;
 }
 
-void Snake::Move(COORD HeadMove, int **Matrix)
+void Snake::Move(COORD headMove, int **matrix)
 {
-	Matrix[tail[Length - 1].Y][tail[Length - 1].X] = 0;
-	for (int i = Length - 1; i > 0; i--)
+	matrix[tail[length - 1].Y][tail[length - 1].X] = 0;
+	for (int i = length - 1; i > 0; i--)
 	{
 		tail[i] = tail[i - 1];
-		Matrix[tail[i].Y][tail[i].X] = 1;
+		matrix[tail[i].Y][tail[i].X] = 1;
 	}
-	tail[0].X += HeadMove.X;
-	tail[0].Y += HeadMove.Y;
-	Matrix[tail[0].Y][tail[0].X] = 2;
+	tail[0].X += headMove.X;
+	tail[0].Y += headMove.Y;
+	matrix[tail[0].Y][tail[0].X] = 2;
 }

@@ -1,64 +1,66 @@
 #include "Game.h"
+#define finalLength 50
 
-
-Game::Game(Window window, Snake snake, int sideLength):Win(window), snake(snake), SideLength(sideLength)
+Game::Game(Window window, Snake snake, int sideLength):win(window), snake(snake), sideLength(sideLength)
 {
 	sideLength++;
-	Points = 0;
-	GameSpeed = 500;
-	HeadMove = { 0,0 };
+	points = 0;
+	gameSpeed = 500;
+	headMove = { 0,0 };
 	srand(time(NULL));
-	this->Matrix = new int *[sideLength];
+	/*this->matrix = new int *[sideLength];
 	for (int i = 0; i < sideLength; i++)
 	{
-		Matrix[i] = new int[sideLength];
+		matrix[i] = new int[sideLength];
 	}
 	for (int i = 0; i < sideLength; i++)
 		for (int j = 0; j < sideLength; j++)
-			Matrix[i][j] = 0;
+			matrix[i][j] = 0;*/
 
-	
-	Matrix[sideLength / 2][sideLength / 2] = 2;
+	GameField field(sideLength);
+	this->field = field;
+		
+	field.GetMatrix()[sideLength / 2][sideLength / 2] = 2;
 	COORD xy = { sideLength / 2, sideLength / 2 };
-	this->snake.addTailSeg(xy);
+	this->snake.AddTailSeg(xy);
 	for (int i = 1; i < 3; i++)
 	{
-		Matrix[sideLength / 2 ][sideLength / 2 - i] = 1;
+		field.GetMatrix()[sideLength / 2 ][sideLength / 2 - i] = 1;
 		xy.X--;
-		this->snake.addTailSeg(xy);
+		this->snake.AddTailSeg(xy);
 	}
 }
 
 
 Game::~Game()
 {
-	for (int i = 0; i < SideLength; i++)
+	/*for (int i = 0; i < sideLength; i++)
 	{
-		delete[] Matrix[i];
-	}
+		delete[] matrix[i];
+	}*/
 }
 
-void Game::startGame()
+void Game::StartGame()
 {
-	Win.setBorder();
-	generateFood();
+	win.SetBorder();
+	GenerateFood();
 	
-	while (!gameOver())
+	while (!GameOver())
 	{
-		tick();
-		Sleep(GameSpeed);
+		Tick();
+		Sleep(gameSpeed);
 	}
 
 	system("cls");
-	Win.gotoxy(SideLength / 2 - 5, SideLength / 2);
+	win.Gotoxy(sideLength / 2 - 5, sideLength / 2);
 	cout << "You Dead";
-	Win.gotoxy(0,0);
+	win.Gotoxy(0,0);
 }
 
-bool Game::gameOver()
+bool Game::GameOver()
 {
-	if ((snake.GetSnakeHead().X == 0) || (snake.GetSnakeHead().X == SideLength) ||
-		(snake.GetSnakeHead().Y == 0) || (snake.GetSnakeHead().Y == SideLength))
+	if ((snake.GetSnakeHead().X == 0) || (snake.GetSnakeHead().X == sideLength) ||
+		(snake.GetSnakeHead().Y == 0) || (snake.GetSnakeHead().Y == sideLength))
 		return true;
 	vector<COORD> tail = snake.GetTail();
 	bool flag = 1;
@@ -71,83 +73,92 @@ bool Game::gameOver()
 			else
 				return true;
 	}
+	if (snake.GetLength() == finalLength)
+	{
+		system("cls");
+		win.Gotoxy(sideLength / 2 - 5, sideLength / 2);
+		cout << "You Win";
+		win.Gotoxy(0, 0);
+		_getch();
+		return true;
+	}
 	return false;
 }
 
-void Game::tick()
+void Game::Tick()
 {
-	Win.cleanWindow(Matrix);
+	win.CleanField(field.GetMatrix());
 		
 	if (_kbhit())
 	{
 		_getch();
-		Movekey = int(_getch());
+		moveKey = int(_getch());
 	}
-	switch (int(Movekey))
+	switch (int(moveKey))
 	{
 	case(80):
-		if(HeadMove.X != 0 || HeadMove.Y != -1)
-			HeadMove = { 0,1 };
+		if(headMove.X != 0 || headMove.Y != -1)
+			headMove = { 0,1 };
 		break;
 	case(72):
-		if (HeadMove.X != 0 || HeadMove.Y != 1)
-			HeadMove = { 0,-1 };
+		if (headMove.X != 0 || headMove.Y != 1)
+			headMove = { 0,-1 };
 		break;
 	case(75):
-		if (HeadMove.X != 1 || HeadMove.Y != 0)
-			HeadMove = { -1,0 };
+		if (headMove.X != 1 || headMove.Y != 0)
+			headMove = { -1,0 };
 		break;
 	case(77):
-		if (HeadMove.X != -1 || HeadMove.Y != 0)
-			HeadMove = { 1,0 };
+		if (headMove.X != -1 || headMove.Y != 0)
+			headMove = { 1,0 };
 		break;
 	case(int('s')):
-		GameSpeed -= 5;
+		gameSpeed -= 5;
 		break;
 	default:
 		break;
 	}
 	
-	if (HeadMove.X != 0 || HeadMove.Y != 0)
-		snake.Move(HeadMove, Matrix);
+	if (headMove.X != 0 || headMove.Y != 0)
+		snake.Move(headMove, field.GetMatrix());
 
-	if (Food.X == snake.GetSnakeHead().X && Food.Y == snake.GetSnakeHead().Y)
+	if (food.X == snake.GetSnakeHead().X && food.Y == snake.GetSnakeHead().Y)
 	{
-		Points += 100;
-		Win.gotoxy(0, 0);
-		cout << Points;
-		snake.addTailSeg({ 0,0 });
-		generateFood();
-		if (Points % 1000 == 0)
+		points += 100;
+		win.Gotoxy(0, 0);
+		cout << points;
+		snake.AddTailSeg({ 0,0 });
+		GenerateFood();
+		if (points % 1000 == 0)
 		{
-			GameSpeed -= 50;
+			gameSpeed -= 50;
 		}
 	}
-	Win.printSnake(Matrix);
+	win.PrintField(field.GetMatrix());
 }
 
-void Game::generateFood()
+void Game::GenerateFood()
 {
-	int x = getRand();
-	int y = getRand();
+	int x = GetRand();
+	int y = GetRand();
 
-	while (!checkRand(x, 1))
-		x = getRand();
-	Food.X = x;
+	while (!CheckRand(x, 1))
+		x = GetRand();
+	food.X = x;
 
-	while (!checkRand(y, 0))
-		y = getRand();
-	Food.Y = y;
+	while (!CheckRand(y, 0))
+		y = GetRand();
+	food.Y = y;
 
-	Matrix[Food.Y][Food.X] = 9;
+	field.GetMatrix()[food.Y][food.X] = 9;
 }
 
-int Game::getRand()
+int Game::GetRand()
 {
-	return rand() % (SideLength - 1) + 1;
+	return rand() % (sideLength - 1) + 1;
 }
 
-bool Game::checkRand(int a, bool t)
+bool Game::CheckRand(int a, bool t)
 {
 	vector<COORD> tail = snake.GetTail();
 	if (t)

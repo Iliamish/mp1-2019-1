@@ -7,7 +7,7 @@ enum TColor
 	LIGHTMAGENTA, YELLOW, WHITE
 };
 
-void TextField::gotoxy(int x, int y)
+void TextField::Gotoxy(int x, int y)
 {
 	HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (!Console)
@@ -46,7 +46,7 @@ void TextField::textbackground(int color)
 	char ch;
 	pos = WhereXY();
 	ReadConsoleOutputCharacter(Console, &ch, 1, pos, &Count);
-	gotoxy(pos.X, pos.Y);
+	Gotoxy(pos.X, pos.Y);
 }
 
 COORD TextField::WhereXY(void)
@@ -77,7 +77,7 @@ void TextField::setwindow(int width, int height)
 	SetConsoleScreenBufferSize(Console, size);
 }
 
-TextField::TextField(int x, int y, int length) : X(x), Y(y), Length(length)
+TextField::TextField(int x, int y, int length) : X(x), Y(y), length(length)
 {
 
 }
@@ -90,12 +90,12 @@ TextField::~TextField()
 
 void TextField::SetLen(int length)
 {
-	Length = length;
+	length = length;
 }
 
 int TextField::GetLen()
 {
-	return Length;
+	return length;
 }
 
 void TextField::SetX(int x)
@@ -120,7 +120,7 @@ int TextField::GetY()
 
 void TextField::PutFieldOnConsole()
 {
-	gotoxy(X, Y);
+	Gotoxy(X, Y);
 	system("cls");
 	textbackground(BLUE);
 }

@@ -6,9 +6,9 @@
 #define up_border_element  '-'
 #define side_border_element  '|'
 
-Window::Window(int sideLength): SideLength(sideLength)
+Window::Window(int sideLength): sideLength(sideLength)
 {
-	setWindow(sideLength + 1);
+	SetWindow(sideLength + 1);
 }
 
 
@@ -16,46 +16,46 @@ Window::~Window()
 {
 }
 
-void Window::setBorder()
+void Window::SetBorder()
 {
 	int k = 0;
-	for (int i = 0; i <= SideLength; i++)
+	for (int i = 0; i <= sideLength; i++)
 	{
-		gotoxy(i, k);
+		Gotoxy(i, k);
 		cout << up_border_element;
-		gotoxy(k, i);
+		Gotoxy(k, i);
 		cout << side_border_element;
 	}
-	k = SideLength;
-	for (int i = 0; i <= SideLength ; i++)
+	k = sideLength;
+	for (int i = 0; i <= sideLength ; i++)
 	{
-		gotoxy(i, k);
+		Gotoxy(i, k);
 		cout << up_border_element;
-		gotoxy(k, i);
+		Gotoxy(k, i);
 		cout << side_border_element;
 	}
 }
 
-void Window::cleanWindow(int **Matrix)
+void Window::CleanField(int **matrix)
 {
-	for (int i = 1; i < SideLength; i++)
+	for (int i = 1; i < sideLength; i++)
 	{
-		for (int j = 1; j < SideLength; j++)
-			if (Matrix[i][j] == 1)
+		for (int j = 1; j < sideLength; j++)
+			if (matrix[i][j] == 1)
 			{
-				gotoxy(i, j);
+				Gotoxy(i, j);
 				cout << ' ';
 			}
 	}
 }
 
-void Window::printSnake(int **Matrix)
+void Window::PrintField(int **matrix)
 {
-	for (int i = 1; i < SideLength; i++)
+	for (int i = 1; i < sideLength; i++)
 	{
-		gotoxy(1, i);
-		for (int j = 1; j < SideLength; j++)
-			switch (Matrix[i][j])
+		Gotoxy(1, i);
+		for (int j = 1; j < sideLength; j++)
+			switch (matrix[i][j])
 			{
 			case(0): cout << " "; break;
 			case(1): cout << SEG; break;
@@ -70,10 +70,10 @@ void Window::printSnake(int **Matrix)
 
 int Window::GetSideLenght()
 {
-	return SideLength;
+	return sideLength;
 }
 
-void Window::gotoxy(int x, int y)
+void Window::Gotoxy(int x, int y)
 {
 	HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (!Console)
@@ -95,7 +95,7 @@ COORD Window::WhereXY(void)
 	return buf.dwCursorPosition;
 }
 
-void Window::setWindow(int width)
+void Window::SetWindow(int width)
 {
 	HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (!Console)

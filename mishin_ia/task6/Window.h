@@ -9,19 +9,17 @@ using std::cout;
 
 class Window
 {
-	
-	int SideLength;
-	
-	void setWindow(int width);
+	int sideLength;
+
+	void SetWindow(int width);
 public:
 	Window(int sideLength);
 	~Window();
-	void gotoxy(int x, int y);
+	void Gotoxy(int x, int y);
 	COORD WhereXY(void);
 	int GetSideLenght();
-	void setBorder();
-	void cleanWindow(int **Matrix);
-	void printSnake(int **Matrix);
-	
+	void SetBorder();
+	void CleanField(int **matrix);
+	void PrintField(int **matrix);
 };
 

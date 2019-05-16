@@ -5,10 +5,10 @@ using namespace std;
 
 class TextField
 {
-	int Length;
+	int length;
 	int X;
 	int Y;
-	void gotoxy(int x, int y);
+	void Gotoxy(int x, int y);
 	void textbackground(int color);
 	COORD WhereXY(void);
 	void setwindow(int width, int height);

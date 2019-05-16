@@ -5,7 +5,7 @@ int main()
 {
 	Snake snake;
 	Window window(20);
-	Game game(window, snake, window.GetSideLenght());// исправить третий параметр
-	game.startGame();
+	Game game(window, snake, window.GetSideLenght());
+	game.StartGame();
 	_getch();
 }
