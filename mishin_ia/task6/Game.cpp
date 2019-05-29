@@ -8,24 +8,21 @@ Game::Game(Window window, Snake snake, int sideLength):win(window), snake(snake)
 	gameSpeed = 500;
 	headMove = { 0,0 };
 	srand(time(NULL));
-	/*this->matrix = new int *[sideLength];
+	this->matrix = new int *[sideLength];
 	for (int i = 0; i < sideLength; i++)
 	{
 		matrix[i] = new int[sideLength];
 	}
 	for (int i = 0; i < sideLength; i++)
 		for (int j = 0; j < sideLength; j++)
-			matrix[i][j] = 0;*/
-
-	GameField field(sideLength);
-	this->field = field;
+			matrix[i][j] = 0;
 		
-	field.GetMatrix()[sideLength / 2][sideLength / 2] = 2;
+	matrix[sideLength / 2][sideLength / 2] = 2;
 	COORD xy = { sideLength / 2, sideLength / 2 };
 	this->snake.AddTailSeg(xy);
 	for (int i = 1; i < 3; i++)
 	{
-		field.GetMatrix()[sideLength / 2 ][sideLength / 2 - i] = 1;
+		matrix[sideLength / 2 ][sideLength / 2 - i] = 1;
 		xy.X--;
 		this->snake.AddTailSeg(xy);
 	}
@@ -34,10 +31,10 @@ Game::Game(Window window, Snake snake, int sideLength):win(window), snake(snake)
 
 Game::~Game()
 {
-	/*for (int i = 0; i < sideLength; i++)
+	for (int i = 0; i < sideLength; i++)
 	{
 		delete[] matrix[i];
-	}*/
+	}
 }
 
 void Game::StartGame()
@@ -87,7 +84,7 @@ bool Game::GameOver()
 
 void Game::Tick()
 {
-	win.CleanField(field.GetMatrix());
+	win.CleanField(matrix);
 		
 	if (_kbhit())
 	{
@@ -120,7 +117,7 @@ void Game::Tick()
 	}
 	
 	if (headMove.X != 0 || headMove.Y != 0)
-		snake.Move(headMove, field.GetMatrix());
+		snake.Move(headMove, matrix);
 
 	if (food.X == snake.GetSnakeHead().X && food.Y == snake.GetSnakeHead().Y)
 	{
@@ -134,7 +131,7 @@ void Game::Tick()
 			gameSpeed -= 50;
 		}
 	}
-	win.PrintField(field.GetMatrix());
+	win.PrintField(matrix);
 }
 
 void Game::GenerateFood()
@@ -150,7 +147,7 @@ void Game::GenerateFood()
 		y = GetRand();
 	food.Y = y;
 
-	field.GetMatrix()[food.Y][food.X] = 9;
+	matrix[food.Y][food.X] = 9;
 }
 
 int Game::GetRand()

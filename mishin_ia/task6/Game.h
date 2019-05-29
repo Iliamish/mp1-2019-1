@@ -1,7 +1,6 @@
 #pragma once
 #include "Snake.h"
 #include "Window.h"
-#include "GameField.h"
 #include <iostream>
 #include <conio.h>
 #include <time.h>
@@ -12,8 +11,7 @@ class Game
 {
 	Window win;
 	Snake snake;
-	GameField field;
-	//int **matrix;
+	int **matrix;
 	int sideLength;
 	int gameSpeed;
 	int points;

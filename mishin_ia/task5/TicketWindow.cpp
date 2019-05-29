@@ -34,6 +34,7 @@ bool TicketWindow::BuyTicket(string date, string time, string name, int hallNumb
 				ticket.Time = time;
 				ticket.HallNumber = hallNumber;
 				ticket.Name = name;
+				ticket.Type = type;
 				tickets.push_back(ticket);
 				if (time < "12_00")
 					ticket.Cost = seance.GetHall().GetCost(type) * 0.75;
@@ -50,5 +51,17 @@ bool TicketWindow::BuyTicket(string date, string time, string name, int hallNumb
 
 bool TicketWindow::ReturnTicket(vector<Ticket>& tickets)
 {
+	Ticket ticket0 = tickets[0];
+	vector<int> rows, cols;
+	for (Seance seance : Seances)
+		if ((seance.GetName() == ticket0.Name) && (seance.GetDate() == ticket0.Date) && (seance.GetTime() == ticket0.Time))
+		{
+			for (Ticket ticket : tickets)
+			{
+				rows.push_back(ticket.Row);
+				cols.push_back(ticket.Col);
+			}
+			seance.GetHall().ReturnTicket(rows, cols, ticket0.Type);
+		}
 	return false;
 }

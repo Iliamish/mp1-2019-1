@@ -11,6 +11,7 @@ struct Ticket {
 	int HallNumber;
 	int Row;
 	int Col;
+	int Type;
 	double Cost;
 };
 
