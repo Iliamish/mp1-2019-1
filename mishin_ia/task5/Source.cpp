@@ -5,8 +5,8 @@ using std::cout;
 
 
 int main() {
-	string data = "01";
-
-	cout << std::stoi(data);
+	TicketWindow ticketWindow;
+	vector<Ticket> tickets;
+	ticketWindow.BuyTicket("2019_05_29", "12_00", "Titanic", 2, 0, 1, tickets);
 	system("pause");
 }
